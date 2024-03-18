@@ -1,10 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treak/Providers/section_provider.dart';
+import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final PreferredSizeWidget bar = AppBar(
     toolbarHeight: 150,
     leadingWidth: 10,
@@ -27,6 +35,7 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32))),
   );
+
   Widget floatingButton = FloatingActionButton(
     onPressed: () {},
     backgroundColor: const Color(0xff58CCA2),
@@ -36,9 +45,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    final sections = ref.watch(sectionProvider);
     return Scaffold(
       appBar: bar,
       floatingActionButton: floatingButton,
+      body:Column(
+        children: [
+          for(final section in sections)
+            SectionWidget(taskList:section.taskList)
+        ],
+      )
     );
   }
 }
