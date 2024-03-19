@@ -29,7 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: TimeLineWidget(),
     ),
     actions: [
-      IconButton(onPressed: () {}, icon: const Icon(Icons.search,color: Colors.white,size: 10,)),
+      IconButton(onPressed: () {}, icon: const Icon(Icons.search,color: Colors.white,size: 27,)),
     ],
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body:Column(
         children: [
           for(final section in sections)
-            SectionWidget(taskList:section.taskList)
+            SectionWidget(title: section.title,taskList:section.taskList)
         ],
       )
     );

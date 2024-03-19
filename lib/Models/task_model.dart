@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
-final DateFormat formatter = DateFormat('j:m');
+final DateFormat formatter = DateFormat('jm');
 const uuid = Uuid();
 
 enum Priority { high, medium, low }

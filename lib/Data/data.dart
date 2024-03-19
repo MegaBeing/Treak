@@ -13,7 +13,7 @@ UserModel user = UserModel(
       title: "College",
       taskList: [
         TaskModel(
-          title: "Rest",
+          title: "Rest is the best thing in the world",
           dateTime: DateTime.now(),
           priority: Priority.high,
         ),
