@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../Models/task_model.dart';
 
 class TaskWidget extends StatefulWidget {
@@ -18,6 +19,14 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    DateTime now = DateTime.now();
+    final double progress =
+        widget.task.dateTime.difference(now).inMilliseconds.toDouble() /
+            DateTime(now.year, now.month, now.day)
+                .difference(widget.task.dateTime)
+                .inMilliseconds
+                .toDouble();
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
@@ -35,14 +44,15 @@ class _TaskWidgetState extends State<TaskWidget> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                          color: priorityColor[widget.task.priority],
-                    borderRadius: BorderRadius.circular(32)
-                      ),
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                        color: priorityColor[widget.task.priority],
+                        borderRadius: BorderRadius.circular(32)),
                   ),
-                  const SizedBox(width: 5,),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   Text(
                     widget.task.formattedDateTime,
                     style: const TextStyle(color: Colors.white),
@@ -52,13 +62,16 @@ class _TaskWidgetState extends State<TaskWidget> {
               const Spacer(),
               Text(
                 widget.task.title,
-                style: const TextStyle(color: Colors.grey,fontSize: 28),
+                style: const TextStyle(color: Colors.grey, fontSize: 28),
               ),
               const Spacer(),
-              const LinearProgressIndicator(
-                value: 1,
+              LinearProgressIndicator(
+                color: priorityColor[widget.task.priority],
+                value: progress,
               ),
-              const SizedBox(height: 20,)
+              const SizedBox(
+                height: 20,
+              )
             ],
           ),
         );
