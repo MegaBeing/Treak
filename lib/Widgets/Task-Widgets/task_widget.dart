@@ -32,7 +32,7 @@ class _TaskWidgetState extends State<TaskWidget> {
         return Container(
           padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.all(10),
-          constraints: const BoxConstraints(maxWidth: 300, maxHeight: 300),
+          constraints: const BoxConstraints(maxWidth: 245, maxHeight: 300),
           decoration: BoxDecoration(
             color: const Color(0xff393838),
             borderRadius: BorderRadius.circular(29),

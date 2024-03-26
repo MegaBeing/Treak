@@ -17,6 +17,49 @@ UserModel user = UserModel(
           dateTime: DateTime(now.year, now.month, now.day,12),
           priority: Priority.high,
         ),
+        TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),
+      ],
+    ),SectionModel(
+      title: "College",
+      taskList: [
+        TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),
+        TaskModel(
+          title: "Rest is the best thing in the world",
+          dateTime: DateTime(now.year, now.month, now.day,12),
+          priority: Priority.high,
+        ),
       ],
     ),
   ],

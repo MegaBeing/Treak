@@ -38,6 +38,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   uuid: ^4.3.3
   easy_date_timeline: ^1.0.6
+  web_smooth_scroll: ^1.1.0
 
 dev_dependencies:
   flutter_test:
