@@ -16,8 +16,6 @@ class SectionWidget extends StatefulWidget {
 }
 
 class _SectionWidgetState extends State<SectionWidget> {
-  bool _isVisible = true;
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -25,33 +23,14 @@ class _SectionWidgetState extends State<SectionWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 20,),
-        Row(
+        Wrap(
+          spacing: 10,
           children: [
-            SizedBox(width: 20,),
-            Text(widget.title,style: TextStyle(fontSize: 24),),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _isVisible = !_isVisible;
-                });
-              },
-              icon: Icon(
-                Icons.arrow_drop_down,
-              ),
-            ),
+            for (final task in widget.taskList)
+              TaskWidget(
+                task: task,
+              )
           ],
-        ),
-        Visibility(
-          visible: _isVisible,
-          child: Wrap(
-            spacing: 10,
-            children: [
-              for (final task in widget.taskList)
-                TaskWidget(
-                  task: task,
-                )
-            ],
-          ),
         ),
       ],
     );

@@ -4,6 +4,8 @@ import 'package:treak/Providers/section_provider.dart';
 import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
 
+import '../Providers/navigation_rail_item_provider.dart';
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -41,6 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     // TODO: implement build
     final sections = ref.watch(sectionProvider);
     final height = MediaQuery.of(context).size.height;
+    final navigationRail = ref.watch(navigationRailItemProvider);
     return Scaffold(
       floatingActionButton: floatingButton,
       body: Row(
@@ -51,25 +54,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 _selectedIndex = idx;
               });
             },
-            destinations: const <NavigationRailDestination>[
-              NavigationRailDestination(
-                icon: Icon(Icons.favorite_border),
-                selectedIcon: Icon(Icons.favorite),
-                label: Text('First'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.bookmark_border),
-                selectedIcon: Icon(Icons.book),
-                label: Text('Second'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.star_border),
-                selectedIcon: Icon(Icons.star),
-                label: Text('Third'),
-              ),
-            ],
+            destinations: navigationRail,
             selectedIndex: _selectedIndex,
             groupAlignment: 0.0,
+            labelType: NavigationRailLabelType.selected,
             leading: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.person),
@@ -94,9 +82,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
-                      for (final section in sections)
-                        SectionWidget(
-                            title: section.title, taskList: section.taskList)
+                      SectionWidget(
+                          title: sections[_selectedIndex].title,
+                          taskList: sections[_selectedIndex].taskList),
                     ],
                   ),
                 ),

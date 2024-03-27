@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../Models/task_model.dart';
 
 class TaskWidget extends StatefulWidget {
@@ -32,7 +30,7 @@ class _TaskWidgetState extends State<TaskWidget> {
         return Container(
           padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.all(10),
-          constraints: const BoxConstraints(maxWidth: 245, maxHeight: 300),
+          constraints: const BoxConstraints(maxWidth: 325, maxHeight: 300),
           decoration: BoxDecoration(
             color: const Color(0xff393838),
             borderRadius: BorderRadius.circular(29),

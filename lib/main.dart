@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
       title: 'Treak',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black26),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff2b2b2b)),
         useMaterial3: true,
       ),
-      home: ProviderScope(child: HomeScreen()),
+      home: const ProviderScope(child: HomeScreen()),
     );
   }
 }
