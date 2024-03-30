@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treak/Providers/section_provider.dart';
 import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
+import 'package:treak/Widgets/add_task_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
 
 import '../Providers/navigation_rail_item_provider.dart';
@@ -14,6 +17,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _isFormVisible = false;
   final PreferredSizeWidget bar = AppBar(
     backgroundColor: const Color(0xff2b2b2b),
     bottom: PreferredSize(
@@ -24,18 +28,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32))),
   );
-
-  void newTask() {}
-
-  Widget floatingButton = FloatingActionButton(
-    onPressed: () {},
-    backgroundColor: const Color(0xff58CCA2),
-    child: const Icon(
-      Icons.add,
-      color: Colors.white,
-      size: 28,
-    ),
-  );
   int _selectedIndex = 0;
 
   @override
@@ -45,7 +37,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final height = MediaQuery.of(context).size.height;
     final navigationRail = ref.watch(navigationRailItemProvider);
     return Scaffold(
-      floatingActionButton: floatingButton,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _isFormVisible = !_isFormVisible;
+          });
+        },
+        backgroundColor: const Color(0xff58CCA2),
+        child: Icon(
+          _isFormVisible ? Icons.close: Icons.add,
+          color: Colors.white,
+          size: 28,
+        ),
+      ),
       body: Row(
         children: [
           NavigationRail(
@@ -60,7 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             labelType: NavigationRailLabelType.selected,
             leading: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.person),
+              icon: const Icon(Icons.add_box_outlined),
             ),
           ),
           const VerticalDivider(
@@ -69,6 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 260,
@@ -77,17 +82,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: height - 270,
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
+                Expanded(
+                  child: Stack(
                     children: [
-                      SectionWidget(
-                          title: sections[_selectedIndex].title,
-                          taskList: sections[_selectedIndex].taskList),
+                      SizedBox(
+                        height: height - 270,
+                        width: _isFormVisible
+                            ? double.infinity - 400
+                            : double.infinity,
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          children: [
+                            SectionWidget(
+                              title: sections[_selectedIndex].title,
+                              taskList: sections[_selectedIndex].taskList,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: 10,
+                        child: Visibility(
+                          visible: _isFormVisible,
+                          child: AddTaskScreen(
+                            height: height - 500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
+
               ],
             ),
           ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
-final DateFormat formatter = DateFormat('jm');
+final DateFormat timeFormat = DateFormat('jm');
+final DateFormat dateFormat = DateFormat('MMMd');
 const uuid = Uuid();
 
 enum Priority { high, medium, low }
@@ -25,6 +26,6 @@ class TaskModel {
   Priority priority;
 
   String get formattedDateTime {
-    return formatter.format(dateTime);
+    return timeFormat.format(dateTime);
   }
 }
