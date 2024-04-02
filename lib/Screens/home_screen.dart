@@ -104,7 +104,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         child: Visibility(
                           visible: _isFormVisible,
                           child: AddTaskScreen(
-                            height: height - 500,
+                            height: height - 540,
                           ),
                         ),
                       ),
