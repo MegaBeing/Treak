@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:treak/Models/task_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  AddTaskScreen({required this.height});
+  const AddTaskScreen({super.key, required this.height});
 
-  final height;
+  final double height;
 
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +20,50 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   String? _value;
   TimeOfDay? _selectedTime;
   DateTime? _selectedDate;
+  Priority? _priority = Priority.low;
+
+  void _save() {
+    if (_selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('No Date Selected'),
+          content: const Text('Please select The date of the following task'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    if (_selectedTime == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('No Time Selected'),
+          content: const Text('Please select time of the following task'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+    }
+  }
 
   void _timePicker() async {
     final time =
@@ -42,17 +88,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     // TODO: implement build
     return Container(
       height: widget.height,
-      width: 400,
+      width: 425,
       decoration: BoxDecoration(
           color: const Color(0xff626060),
           borderRadius: BorderRadius.circular(27)),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(35),
       child: Form(
         key: _formKey,
         child: Column(
           children: [
             TextFormField(
+              initialValue: _value,
               maxLength: 25,
+              onChanged: (value) {
+                setState(() {
+                  _value = value;
+                });
+              },
               decoration: const InputDecoration(
                 label: Text(
                   'Title',
@@ -71,6 +123,42 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             const SizedBox(
               height: 20,
             ),
+            DropdownButtonFormField(
+              onChanged: (value) {
+                setState(() {
+                  _priority = value!;
+                });
+              },
+              dropdownColor: const Color(0xff313131),
+              value: _priority,
+              decoration: const InputDecoration(
+                label: Text(
+                  'Priority',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              items: [
+                for (final priority in Priority.values)
+                  DropdownMenuItem(
+                    value: priority,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: priorityColor[priority],
+                          height: 10,
+                          width: 10,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(priority.name,style: const TextStyle(color: Colors.white),),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
             Row(
               children: [
                 _selectedDate == null
@@ -106,7 +194,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _save,
               child: const Text('Save'),
             ),
           ],
