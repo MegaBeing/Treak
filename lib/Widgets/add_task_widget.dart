@@ -112,7 +112,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             Expanded(
               child: TextFormField(
                 initialValue: _value,
-                maxLength: 25,
+                maxLength: 50,
                 onChanged: (value) {
                   setState(() {
                     _value = value;
@@ -129,8 +129,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       value.isEmpty ||
                       value
                           .trim()
-                          .length > 10) {
-                    return "Title should be b/w 1 and 10 characters";
+                          .length > 50) {
+                    return "title should be b/w 1 and 50 characters";
                   }
                   return null;
                 },

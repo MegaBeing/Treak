@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treak/Models/section_model.dart';
 import 'package:treak/Models/task_model.dart';
-import 'package:treak/Providers/section_provider.dart';
+import 'package:treak/Helpers/data_helper.dart';
 import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
 import 'package:treak/Widgets/add_task_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
-
-import '../Providers/navigation_rail_item_provider.dart';
+import '../Data/data.dart';
+import '../Helpers/navigation_rail_helper.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -17,19 +17,18 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
-  void addTaskToSection(SectionModel section, TaskModel task)
-  {
-    ref.read(sectionProvider.notifier).addTask(section, task);
+  void addTaskToSection(SectionModel section, TaskModel task) {
+    addTask(section, task);
     setState(() {
       _isFormVisible = !_isFormVisible;
     });
   }
+
   bool _isFormVisible = false;
   final PreferredSizeWidget bar = AppBar(
     backgroundColor: const Color(0xff2b2b2b),
-    bottom: PreferredSize(
-      preferredSize: const Size(double.infinity, 150),
+    bottom: const PreferredSize(
+      preferredSize: Size(double.infinity, 150),
       child: TimeLineWidget(),
     ),
     shape: const RoundedRectangleBorder(
@@ -41,9 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final sectionList = ref.watch(sectionProvider);
+    final sectionList = user.section;
     final height = MediaQuery.of(context).size.height;
-    final navigationRail = ref.watch(navigationRailItemProvider);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -53,7 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
         backgroundColor: const Color(0xff58CCA2),
         child: Icon(
-          _isFormVisible ? Icons.close: Icons.add,
+          _isFormVisible ? Icons.close : Icons.add,
           color: Colors.white,
           size: 28,
         ),
@@ -123,7 +121,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ],
                   ),
                 ),
-
               ],
             ),
           ),

@@ -86,10 +86,3 @@ UserModel user = UserModel(
 );
 Map<SectionModel,int>map = {collegeSection: 0,
 schoolSection: 1};
-final List<NavigationRailDestination> navigationRail = user.section.map((ele) {
-  return NavigationRailDestination(
-    icon: ele.icon,
-    selectedIcon: ele.selectedIcon,
-    label: Text(ele.title),
-  );
-}).toList();

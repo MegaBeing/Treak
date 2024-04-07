@@ -1,19 +1,24 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:web_smooth_scroll/web_smooth_scroll.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treak/Providers/date_provider.dart';
 
-class TimeLineWidget extends StatefulWidget {
+class TimeLineWidget extends ConsumerStatefulWidget {
+  const TimeLineWidget({super.key});
+
   @override
-  State<TimeLineWidget> createState() => _TimeLineWidgetState();
+  ConsumerState<TimeLineWidget> createState() => _TimeLineWidgetState();
 }
 
-class _TimeLineWidgetState extends State<TimeLineWidget> {
+class _TimeLineWidgetState extends ConsumerState<TimeLineWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return EasyDateTimeLine(
       initialDate: DateTime.now(),
-      onDateChange: (selectedDate) {},
+      onDateChange: (selectedDate) {
+        ref.read(dateProvider.notifier).changeDate(selectedDate);
+      },
       activeColor: const Color(0xff58CCA2),
       headerProps: const EasyHeaderProps(
         showHeader: true,
