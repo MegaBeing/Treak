@@ -13,7 +13,7 @@ class SectionModel {
   }) : id = uuid.v4();
   final String id;
   final String title;
-  final List<TaskModel> taskList;
+  List<TaskModel> taskList;
   final Icon icon;
   final Icon selectedIcon;
 }

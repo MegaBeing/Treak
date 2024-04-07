@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treak/Models/section_model.dart';
+import 'package:treak/Models/task_model.dart';
 import 'package:treak/Providers/section_provider.dart';
 import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
 import 'package:treak/Widgets/add_task_widget.dart';
@@ -15,6 +17,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+
+  void addTaskToSection(SectionModel section, TaskModel task)
+  {
+    ref.read(sectionProvider.notifier).addTask(section, task);
+    setState(() {
+      _isFormVisible = !_isFormVisible;
+    });
+  }
   bool _isFormVisible = false;
   final PreferredSizeWidget bar = AppBar(
     backgroundColor: const Color(0xff2b2b2b),
@@ -31,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final sections = ref.watch(sectionProvider);
+    final sectionList = ref.watch(sectionProvider);
     final height = MediaQuery.of(context).size.height;
     final navigationRail = ref.watch(navigationRailItemProvider);
     return Scaffold(
@@ -92,8 +102,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           physics: const BouncingScrollPhysics(),
                           children: [
                             SectionWidget(
-                              title: sections[_selectedIndex].title,
-                              taskList: sections[_selectedIndex].taskList,
+                              title: sectionList[_selectedIndex].title,
+                              taskList: sectionList[_selectedIndex].taskList,
                             ),
                           ],
                         ),
@@ -105,6 +115,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           visible: _isFormVisible,
                           child: AddTaskScreen(
                             height: height - 540,
+                            sectionList: sectionList,
+                            addTask: addTaskToSection,
                           ),
                         ),
                       ),

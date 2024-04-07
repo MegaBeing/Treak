@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treak/Models/task_model.dart';
-import 'package:treak/Providers/section_provider.dart';
-
-import '../Data/data.dart';
 import '../Models/section_model.dart';
 
-class AddTaskScreen extends ConsumerStatefulWidget {
-  const AddTaskScreen({super.key, required this.height});
+class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key, required this.height,required this.sectionList,required this.addTask});
 
   final double height;
-
+  final List<SectionModel> sectionList;
+  final void Function(SectionModel section, TaskModel task) addTask;
   @override
-  ConsumerState<AddTaskScreen> createState() {
+  State<AddTaskScreen> createState() {
     // TODO: implement createState
     return _AddTaskScreenState();
   }
 }
 
-class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
+class _AddTaskScreenState extends State<AddTaskScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _value;
   TimeOfDay? _selectedTime;
   DateTime? _selectedDate;
   Priority _priority = Priority.low;
-  late List<SectionModel> _sections;
-  SectionModel _section = user.section[0];
+  late SectionModel _section;
 
   void _save() {
     if (_selectedDate == null) {
@@ -74,7 +70,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
             _selectedDate!.year, _selectedDate!.month, _selectedDate!.day,
             _selectedTime!.hour, _selectedTime!.minute),
         priority: _priority,);
-      _section.taskList.add(task);
+      widget.addTask(_section,task);
     }
   }
 
@@ -101,7 +97,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
   @override
   Widget build(BuildContext context,) {
     // TODO: implement build
-    _sections = ref.watch(sectionProvider);
+    _section = widget.sectionList[0];
     return Container(
       height: widget.height,
       width: 425,
@@ -197,7 +193,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
                 ),
               ),
               items: [
-                for (final section in _sections)
+                for (final section in widget.sectionList)
                   DropdownMenuItem(
                     value: section,
                     child: Row(

@@ -5,75 +5,77 @@ import 'package:flutter/material.dart';
 import '../Models/user_model.dart';
 
 DateTime now = DateTime.now();
+SectionModel collegeSection = SectionModel(
+  title: "College",
+  taskList: [
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+  ],
+  icon: Icon(Icons.account_balance_outlined),
+  selectedIcon: const Icon(Icons.account_balance),
+);
+SectionModel schoolSection = SectionModel(
+  title: "School",
+  taskList: [
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+    TaskModel(
+      title: "Rest is the best thing in the world",
+      dateTime: DateTime(now.year, now.month, now.day, 12),
+      priority: Priority.high,
+    ),
+  ],
+  icon: const Icon(Icons.account_balance_outlined),
+  selectedIcon: const Icon(Icons.account_balance),
+);
 UserModel user = UserModel(
   name: "Sahil Jain",
   userType: "Student",
   createdAt: now,
   section: [
-    SectionModel(
-      title: "College",
-      taskList: [
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-      ],
-      icon: Icon(Icons.account_balance_outlined),
-      selectedIcon: const Icon(Icons.account_balance),
-    ),
-    SectionModel(
-      title: "College",
-      taskList: [
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-        TaskModel(
-          title: "Rest is the best thing in the world",
-          dateTime: DateTime(now.year, now.month, now.day, 12),
-          priority: Priority.high,
-        ),
-      ],
-      icon: const Icon(Icons.account_balance_outlined),
-      selectedIcon: const Icon(Icons.account_balance),
-    ),
+    collegeSection,
+    schoolSection,
   ],
   prompt: [
     PromptModel(
@@ -82,7 +84,8 @@ UserModel user = UserModel(
     ),
   ],
 );
-
+Map<SectionModel,int>map = {collegeSection: 0,
+schoolSection: 1};
 final List<NavigationRailDestination> navigationRail = user.section.map((ele) {
   return NavigationRailDestination(
     icon: ele.icon,

@@ -15,6 +15,6 @@ class UserModel {
   final String name;
   final String userType;
   final DateTime createdAt;
-  final List<SectionModel> section;
+  List<SectionModel> section;
   final List<PromptModel> prompt;
 }
