@@ -103,7 +103,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       width: 425,
       decoration: BoxDecoration(
           color: const Color(0xff626060),
-          borderRadius: BorderRadius.circular(50)),
+          borderRadius: BorderRadius.circular(25)),
       padding: const EdgeInsets.all(20),
       child: Form(
         key: _formKey,

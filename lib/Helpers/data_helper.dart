@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 void addTask(SectionModel section, TaskModel task) {
   section.taskList.add(task);
 }
-
+void removeTask(SectionModel section, TaskModel task) {
+  section.taskList.remove(task);
+}
 void addSection(String sectionTitle, Icon unSelected, Icon selected) {
   SectionModel section = SectionModel(
     title: sectionTitle,

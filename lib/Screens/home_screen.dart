@@ -22,6 +22,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     setState(() {
       _isFormVisible = !_isFormVisible;
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Created Task'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            removeTask(section, task);
+          },
+        ),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   bool _isFormVisible = false;
@@ -107,8 +119,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                       Positioned(
-                        right: 10,
-                        bottom: 10,
+                        right: 8,
+                        bottom: 8,
                         child: Visibility(
                           visible: _isFormVisible,
                           child: AddTaskScreen(
