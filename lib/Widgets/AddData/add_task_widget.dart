@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treak/Models/task_model.dart';
-import '../Models/section_model.dart';
+import '../../Models/section_model.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key, required this.height,required this.sectionList,required this.addTask});

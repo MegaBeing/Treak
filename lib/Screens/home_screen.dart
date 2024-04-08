@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treak/Models/section_model.dart';
 import 'package:treak/Models/task_model.dart';
 import 'package:treak/Helpers/data_helper.dart';
+import 'package:treak/Providers/date_provider.dart';
 import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
-import 'package:treak/Widgets/add_task_widget.dart';
+import 'package:treak/Widgets/AddData/add_task_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
 import '../Data/data.dart';
 import '../Helpers/navigation_rail_helper.dart';
@@ -108,15 +109,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         width: _isFormVisible
                             ? double.infinity - 400
                             : double.infinity,
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          children: [
-                            SectionWidget(
-                              title: sectionList[_selectedIndex].title,
-                              taskList: sectionList[_selectedIndex].taskList,
-                            ),
-                          ],
-                        ),
+                        child: (mapTaskToDate(sectionList[_selectedIndex].taskList, ref.watch(dateProvider)).isEmpty)
+                            ? const Center(
+                                child: Text('Add Tasks',style: TextStyle(color: Colors.black,fontSize: 46),),
+                              )
+                            : ListView(
+                                physics: const BouncingScrollPhysics(),
+                                children: [
+                                  SectionWidget(
+                                    title: sectionList[_selectedIndex].title,
+                                    taskList:
+                                        sectionList[_selectedIndex].taskList,
+                                  ),
+                                ],
+                              ),
                       ),
                       Positioned(
                         right: 8,

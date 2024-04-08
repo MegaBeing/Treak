@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Models/task_model.dart';
+import 'dart:async';
 
 class TaskWidget extends StatefulWidget {
   TaskWidget({required this.task});
@@ -14,16 +15,34 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
+  late Timer _timer;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      // Update the UI state
+      setState(() {});
+    });
+  }
+@override
+  void dispose() {
+    // TODO: implement dispose
+  _timer.cancel();
+  super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     DateTime now = DateTime.now();
-    final double progress =
-        widget.task.dateTime.difference(now).inMilliseconds.toDouble() /
-            DateTime(now.year, now.month, now.day)
-                .difference(widget.task.dateTime)
-                .inMilliseconds
-                .toDouble();
+    final double progress = DateTime.now()
+            .difference(DateTime(now.year, now.month, now.day))
+            .inMilliseconds
+            .toDouble() /
+        widget.task.dateTime
+            .difference(DateTime(now.year, now.month, now.day))
+            .inMilliseconds
+            .toDouble();
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
