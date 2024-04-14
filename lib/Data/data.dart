@@ -49,7 +49,7 @@ SectionModel collegeSection = SectionModel(
       priority: Priority.high,
     ),
   ],
-  icon: Icon(Icons.account_balance_outlined),
+  icon: const Icon(Icons.account_balance_outlined),
   selectedIcon: const Icon(Icons.account_balance),
 );
 SectionModel schoolSection = SectionModel(
@@ -84,5 +84,23 @@ UserModel user = UserModel(
     ),
   ],
 );
-Map<SectionModel,int>map = {collegeSection: 0,
-schoolSection: 1};
+Map<SectionModel, int> map = {
+  collegeSection: 0,
+  schoolSection: 1,
+};
+Map<String, IconData> textToIconMap = {
+  "School": Icons.account_balance_outlined,
+  "Wallet": Icons.account_balance_wallet_outlined,
+  "Printer": Icons.adf_scanner_outlined,
+  "Agriculture": Icons.agriculture_outlined,
+  "Sleep": Icons.airline_seat_flat_outlined,
+  "Flight": Icons.airplane_ticket_outlined,
+};
+Map<IconData, IconData> sectionIconOnSelectMap = {
+  Icons.account_balance_outlined: Icons.account_balance,
+  Icons.account_balance_wallet_outlined: Icons.account_balance_wallet,
+  Icons.adf_scanner_outlined: Icons.adf_scanner,
+  Icons.agriculture_outlined: Icons.agriculture,
+  Icons.airline_seat_flat_outlined: Icons.airline_seat_flat,
+  Icons.airplane_ticket_outlined: Icons.airplane_ticket,
+};

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treak/Helpers/data_helper.dart';
 import 'package:treak/Models/section_model.dart';
 import 'package:treak/Models/task_model.dart';
-import 'package:treak/Helpers/data_helper.dart';
 import 'package:treak/Providers/date_provider.dart';
-import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
+import 'package:treak/Widgets/AddData/add_group_widget.dart';
 import 'package:treak/Widgets/AddData/add_task_widget.dart';
+import 'package:treak/Widgets/Section-Widgets/section_widget.dart';
 import 'package:treak/Widgets/timeline_widget.dart';
+
 import '../Data/data.dart';
-import '../Helpers/navigation_rail_helper.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -18,10 +19,35 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  void addTaskToSection(SectionModel section, TaskModel task) {
-    addTask(section, task);
+
+  List<NavigationRailDestination> navigationRail = user.section.map((ele) {
+    return NavigationRailDestination(
+      icon: ele.icon,
+      selectedIcon: ele.selectedIcon,
+      label: Text(ele.title),
+    );
+  }).toList();
+
+  void addSectionToUser(String sectionTitle, String icon) {
+    addSection(sectionTitle, Icon(textToIconMap[icon]),
+        Icon(sectionIconOnSelectMap[textToIconMap[icon]]));
     setState(() {
-      _isFormVisible = !_isFormVisible;
+      navigationRail = user.section.map((ele) {
+        return NavigationRailDestination(
+          icon: ele.icon,
+          selectedIcon: ele.selectedIcon,
+          label: Text(ele.title),
+        );
+      }).toList();
+      _isAddSectionButtonVisible = true;
+      _isAddSectionFormVisible = false;
+    });
+  }
+
+  void addTaskToSection(SectionModel section, TaskModel task) {
+    setState(() {
+      _isAddTaskButtonVisible = !_isAddTaskButtonVisible;
+      addTask(section, task);
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -29,7 +55,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
-            removeTask(section, task);
+            setState(() {
+              removeTask(section, task);
+            });
           },
         ),
         duration: const Duration(seconds: 3),
@@ -37,7 +65,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  bool _isFormVisible = false;
   final PreferredSizeWidget bar = AppBar(
     backgroundColor: const Color(0xff2b2b2b),
     bottom: const PreferredSize(
@@ -49,6 +76,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             bottomLeft: Radius.circular(32), bottomRight: Radius.circular(32))),
   );
   int _selectedIndex = 0;
+  bool _isAddTaskButtonVisible = true;
+  bool _isAddTaskFormVisible = false;
+  bool _isAddSectionButtonVisible = true;
+  bool _isAddSectionFormVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +87,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final sectionList = user.section;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _isFormVisible = !_isFormVisible;
-          });
-        },
-        backgroundColor: const Color(0xff58CCA2),
-        child: Icon(
-          _isFormVisible ? Icons.close : Icons.add,
-          color: Colors.white,
-          size: 28,
-        ),
-      ),
       body: Row(
         children: [
           NavigationRail(
@@ -83,7 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             labelType: NavigationRailLabelType.selected,
             leading: IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.add_box_outlined),
+              icon: const Icon(Icons.person),
             ),
           ),
           const VerticalDivider(
@@ -106,12 +124,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       SizedBox(
                         height: height - 270,
-                        width: _isFormVisible
+                        width: _isAddTaskButtonVisible
                             ? double.infinity - 400
                             : double.infinity,
-                        child: (mapTaskToDate(sectionList[_selectedIndex].taskList, ref.watch(dateProvider)).isEmpty)
+                        child: (mapTaskToDate(
+                                    sectionList[_selectedIndex].taskList,
+                                    ref.watch(dateProvider))
+                                .isEmpty)
                             ? const Center(
-                                child: Text('Add Tasks',style: TextStyle(color: Colors.black,fontSize: 46),),
+                                child: Text(
+                                  'Add Tasks',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 46),
+                                ),
                               )
                             : ListView(
                                 physics: const BouncingScrollPhysics(),
@@ -128,11 +153,75 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         right: 8,
                         bottom: 8,
                         child: Visibility(
-                          visible: _isFormVisible,
-                          child: AddTaskScreen(
+                          visible: _isAddTaskFormVisible,
+                          child: AddTaskWidget(
                             height: height - 540,
                             sectionList: sectionList,
                             addTask: addTaskToSection,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 8,
+                        bottom: 8,
+                        child: Visibility(
+                          visible: _isAddSectionFormVisible,
+                          child: AddGroupWidget(
+                            height: height - 540,
+                            addSection: addSectionToUser,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 80,
+                        bottom: 20,
+                        child: Visibility(
+                          visible: _isAddSectionButtonVisible,
+                          child: FloatingActionButton.extended(
+                            onPressed: () {
+                              setState(() {
+                                _isAddSectionFormVisible = true;
+                                _isAddSectionButtonVisible = false;
+                              });
+                            },
+                            label: const Text('Add Section'),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom:
+                            _isAddSectionFormVisible || _isAddTaskFormVisible
+                                ? height - 570
+                                : 20,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            setState(() {
+                              // cross operations
+                              if (_isAddSectionFormVisible == true) {
+                                _isAddSectionFormVisible = false;
+                                _isAddSectionButtonVisible = true;
+                              } else if (_isAddTaskFormVisible == true) {
+                                _isAddTaskFormVisible = false;
+                                _isAddSectionButtonVisible = true;
+                              }
+                              // Add operations
+                              else {
+                                _isAddTaskFormVisible = true;
+                                _isAddSectionButtonVisible = false;
+                              }
+                            });
+                          },
+                          backgroundColor:
+                              _isAddSectionFormVisible || _isAddTaskFormVisible
+                                  ? Colors.red
+                                  : const Color(0xff58CCA2),
+                          child: Icon(
+                            _isAddSectionFormVisible || _isAddTaskFormVisible
+                                ? Icons.close
+                                : Icons.add,
+                            color: Colors.white,
+                            size: 28,
                           ),
                         ),
                       ),

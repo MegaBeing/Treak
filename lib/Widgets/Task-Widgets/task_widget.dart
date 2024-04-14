@@ -3,7 +3,7 @@ import '../../Models/task_model.dart';
 import 'dart:async';
 
 class TaskWidget extends StatefulWidget {
-  TaskWidget({required this.task});
+  const TaskWidget({super.key, required this.task});
 
   final TaskModel task;
 

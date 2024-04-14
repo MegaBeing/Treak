@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:treak/Models/task_model.dart';
 import '../../Models/section_model.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key, required this.height,required this.sectionList,required this.addTask});
+class AddTaskWidget extends StatefulWidget {
+  const AddTaskWidget(
+      {super.key,
+      required this.height,
+      required this.sectionList,
+      required this.addTask});
 
   final double height;
   final List<SectionModel> sectionList;
   final void Function(SectionModel section, TaskModel task) addTask;
+
   @override
-  State<AddTaskScreen> createState() {
+  State<AddTaskWidget> createState() {
     // TODO: implement createState
-    return _AddTaskScreenState();
+    return _AddTaskWidgetState();
   }
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+class _AddTaskWidgetState extends State<AddTaskWidget> {
   final _formKey = GlobalKey<FormState>();
   String? _value;
   TimeOfDay? _selectedTime;
@@ -27,56 +32,54 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     if (_selectedDate == null) {
       showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('No Date Selected'),
-              content: const Text(
-                  'Please select The date of the following task'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text('Okay'),
-                ),
-              ],
+        builder: (ctx) => AlertDialog(
+          title: const Text('No Date Selected'),
+          content: const Text('Please select The date of the following task'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
             ),
+          ],
+        ),
       );
       return;
     }
     if (_selectedTime == null) {
       showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('No Time Selected'),
-              content: const Text('Please select time of the following task'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text('Okay'),
-                ),
-              ],
+        builder: (ctx) => AlertDialog(
+          title: const Text('No Time Selected'),
+          content: const Text('Please select time of the following task'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
             ),
+          ],
+        ),
       );
       return;
     }
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var task = TaskModel(title: _value!,
-        dateTime: DateTime(
-            _selectedDate!.year, _selectedDate!.month, _selectedDate!.day,
-            _selectedTime!.hour, _selectedTime!.minute),
-        priority: _priority,);
-      widget.addTask(_section,task);
+      var task = TaskModel(
+        title: _value!,
+        dateTime: DateTime(_selectedDate!.year, _selectedDate!.month,
+            _selectedDate!.day, _selectedTime!.hour, _selectedTime!.minute),
+        priority: _priority,
+      );
+      widget.addTask(_section, task);
     }
   }
 
   void _timePicker() async {
     final time =
-    await showTimePicker(context: context, initialTime: TimeOfDay.now());
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
     setState(() {
       _selectedTime = time!;
     });
@@ -86,23 +89,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     final date = await showDatePicker(
         context: context,
         firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime
-            .now()
-            .year + 1));
+        lastDate: DateTime(DateTime.now().year + 1));
     setState(() {
       _selectedDate = date!;
     });
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     // TODO: implement build
     _section = widget.sectionList[0];
     return Container(
       height: widget.height,
-      width: 425,
+      width: 400,
       decoration: BoxDecoration(
-          color: const Color(0xff626060),
+          color: const Color(0xe4191919),
           borderRadius: BorderRadius.circular(25)),
       padding: const EdgeInsets.all(20),
       child: Form(
@@ -118,6 +121,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     _value = value;
                   });
                 },
+                style: const TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   label: Text(
                     'Title',
@@ -127,9 +132,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 validator: (value) {
                   if (value == null ||
                       value.isEmpty ||
-                      value
-                          .trim()
-                          .length > 50) {
+                      value.trim().length > 50) {
                     return "title should be b/w 1 and 50 characters";
                   }
                   return null;
@@ -213,33 +216,33 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               children: [
                 _selectedDate == null
                     ? OutlinedButton(
-                  onPressed: _datePicker,
-                  child: const Text(
-                    'Select Date',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
+                        onPressed: _datePicker,
+                        child: const Text(
+                          'Select Date',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
                     : ElevatedButton(
-                  onPressed: _datePicker,
-                  child: Text(
-                    dateFormat.format(_selectedDate!),
-                  ),
-                ),
+                        onPressed: _datePicker,
+                        child: Text(
+                          dateFormat.format(_selectedDate!),
+                        ),
+                      ),
                 const Spacer(),
                 _selectedTime == null
                     ? OutlinedButton(
-                  onPressed: _timePicker,
-                  child: const Text(
-                    'Select Time',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
+                        onPressed: _timePicker,
+                        child: const Text(
+                          'Select Time',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
                     : ElevatedButton(
-                  onPressed: _timePicker,
-                  child: Text(
-                    _selectedTime!.format(context),
-                  ),
-                )
+                        onPressed: _timePicker,
+                        child: Text(
+                          _selectedTime!.format(context),
+                        ),
+                      )
               ],
             ),
             const SizedBox(height: 20),
